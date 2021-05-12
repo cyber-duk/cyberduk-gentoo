@@ -1,0 +1,15 @@
+# media
+image/*; xdg-open %s;
+video/*; xdg-open %s
+audio/*; xdg-open %s
+
+# document
+application/pdf; xdg-open %s ;
+
+# text
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/plain; less -R "%s" 
+text/*; less -R "%s" 
+
+# fallback to vim
+text/*; vim "%s"

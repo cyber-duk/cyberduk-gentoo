@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -euf -o noclobber -o noglob -o nounset
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}" # protect trailing \n"
+FPATH="$1"
+FNAME=$(basename "$1")
+MIMETYPE="$(file --dereference --brief --mime-type -- "${FPATH}" )"
+ext="${FNAME##*.}"
+if [ -n "$ext" ]; then
+    ext="$(printf "%s" "${ext}" | tr '[:upper:]' '[:lower:]')"
+fi
+
+TERMINAL="${TERMINAL:-st}"
+EDITOR="${EDITOR:-vim}"
+PDF_OPENER="zathura"
+AUDIO_OPENER="mpv"
+VIDEO_OPENER="mpv"
+IMAGE_OPENER_CMD="feh -B black -.Zd $(dirname "${FPATH}") --start-at "./${FNAME}""
+ARCHIVE_OPENER="xarchiver"
+TORRENT_OPENER="qbittorrent"
+FALLBACK_OPENER="xdg-open"
+case "$ext" in
+    a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rpm|rz|t7z|7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip|rar)
+        $ARCHIVE_OPENER "${FPATH}" >/dev/null 2>&1 &
+        exit 0
+        ;;
+    pdf)
+        $PDF_OPENER "$FPATH" >/dev/null 2>&1 &
+        exit 0
+        ;;
+    aac|flac|m4a|mid|midi|mpa|mp2|mp3|ogg|wav|wma|avi|mkv|mp4|gif)
+        $VIDEO_OPENER "$FPATH" >/dev/null 2>&1 &
+        exit 0
+        ;;
+    torrent)
+        $TORRENT_OPENER ${FPATH} >/dev/null 2>&1 &
+        exit 0
+        ;;
+    md|htm|html|xhtml|log|json)
+        $TERMINAL -e $EDITOR "${FPATH}" >/dev/null 2>&1 &
+        exit 1
+        ;;
+esac
+
+case "$MIMETYPE" in
+    text/* | */xml)
+        $TERMINAL -e $EDITOR "${FPATH}" >/dev/null 2>&1 &
+        exit 0
+        ;;
+    application/pdf)
+        $PDF_OPENER "$FPATH" >/dev/null 2>&1 &
+        exit 0
+        ;;
+    audio/* | video/* | image/gif)
+        $VIDEO_OPENER "$FPATH" >/dev/null 2>&1 &
+        exit 0
+        ;;
+    image/*)
+        feh -B black -.Zd $(dirname "${FPATH}") --start-at "./${FNAME}" >/dev/null 2>&1 &
+        $IMAGE_OPENER_CMD >/dev/null 2>&1 &
+        exit 0
+        ;;
+    *)
+        $FALLBACK_OPENER "$FPATH" >/dev/null 2>&1 &
+        exit 0
+        ;;
+esac
+
+exit 1

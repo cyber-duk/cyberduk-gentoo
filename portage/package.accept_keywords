@@ -1,0 +1,12 @@
+dev-lang/ruby -~amd64
+dev-ruby/bundler -~amd64
+dev-ruby/minitest -~amd64
+dev-ruby/power_assert -~amd64
+dev-ruby/rexml -~amd64
+dev-ruby/rss -~amd64
+dev-ruby/test-unit -~amd64
+dev-ruby/did_you_mean -~amd64
+dev-ruby/rake -~amd64
+dev-ruby/json -~amd64
+dev-ruby/rbs -~amd64
+dev-ruby/typeprof -~amd64

@@ -1,0 +1,5 @@
+# required by dev-qt/qtcore-5.15.2-r2::gentoo
+# required by dev-qt/qtnetwork-5.15.2-r1::gentoo
+# required by net-p2p/qbittorrent-4.3.4.1::gentoo
+# required by qbittorrent (argument)
+>=dev-libs/libpcre2-10.36-r1 pcre16

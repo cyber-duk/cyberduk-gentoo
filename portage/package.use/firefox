@@ -1,0 +1,8 @@
+# required by www-client/firefox-87.0-r1::gentoo
+# required by firefox (argument)
+>=media-libs/libpng-1.6.37-r2 apng
+# required by www-client/firefox-87.0-r1::gentoo[system-libvpx]
+# required by firefox (argument)
+>=media-libs/libvpx-1.10.0 postproc
+
+www-client/firefox geckodriver

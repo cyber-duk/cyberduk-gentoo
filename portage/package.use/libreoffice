@@ -1,0 +1,6 @@
+# required by app-office/libreoffice-bin-6.4.7.2_p3::gentoo
+# required by libreoffice-bin (argument)
+>=media-libs/harfbuzz-2.8.0 icu
+# required by app-office/libreoffice-bin-6.4.7.2_p3::gentoo
+# required by libreoffice-bin (argument)
+ >=dev-libs/xmlsec-1.2.31 nss

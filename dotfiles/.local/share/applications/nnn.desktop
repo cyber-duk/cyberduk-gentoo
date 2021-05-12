@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=nnn
+GenericName=Terminal File Manager
+Comment=Terminal file manager
+Exec=st -c nnn -e nnn -ae %F
+Terminal=false
+Icon=nnn
+MimeType=inode/directory
+Categories=System;FileTools;FileManager;ConsoleOnly
+Keywords=File;Manager;Management;Explorer;Launcher

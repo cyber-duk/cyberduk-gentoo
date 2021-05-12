@@ -1,0 +1,25 @@
+# Local folder
+set ssl_starttls = yes
+set ssl_force_tls = yes
+set message_cachedir = "~/.cache/neomutt/bodies"
+set certificate_file = "~/.cache/neomutt/certificates"
+
+# IMAP Settings
+set realname=
+set imap_user =
+set imap_pass =
+set from= $imap_user
+set use_from=yes
+set folder = "imaps://$imap_user@imap.mail.yahoo.com:993"
+set spoolfile = "+INBOX"
+set postponed = "Draft"
+set record = "+Sent"
+set trash = "+Trash"
+set mail_check = 100
+set imap_check_subscribed
+
+# Sending Mail
+set smtp_url = "smtp://$imap_user@smtp.mail.yahoo.com:465"
+set smtp_pass = $imap_pass
+set mime_forward = yes
+
