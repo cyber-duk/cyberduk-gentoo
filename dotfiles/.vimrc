@@ -1,10 +1,10 @@
 """ General Settings """
 " Enable 24-bit true colors if your terminal supports it.
 if (has("termguicolors"))
-	" https://github.com/vim/vim/issues/993#issuecomment-255651605
-	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-	set termguicolors
+    " https://github.com/vim/vim/issues/993#issuecomment-255651605
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
 endif
 
 " Word dictionary
@@ -36,7 +36,7 @@ set tabpagemax=50
 set number
 set relativenumber
 
-" Highlight current line
+" Don't Highlight current line
 set nocursorline
 
 " No error bells
@@ -46,7 +46,7 @@ set noerrorbells
 set novisualbell
 
 " No show outputs
-set showmode
+set noshowmode
 
 " Tabs width
 set tabstop=4
@@ -54,8 +54,8 @@ set softtabstop=4
 set shiftwidth=4
 set shiftround
 
-" Use empty spaces instead tabspace
-set noexpandtab
+" use empty spaces instead tabspace
+set expandtab
 
 " Enable indention
 set autoindent
@@ -90,7 +90,7 @@ set incsearch
 set smartcase
 set showmatch
 
-" Buffer becomes hidden when abandoned
+" Buffer hidden when abandoned
 set hidden
 
 " Performance
@@ -116,8 +116,8 @@ set whichwrap+=<,>,h,l
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
-" Ask for confirmation when before quitting an edited file
-set confirm
+" Do not ask for confirmation when before quitting an edited file
+set noconfirm
 
 " Don't show modeline
 set nomodeline
@@ -186,26 +186,18 @@ set wildignore+=*/coverage
 autocmd VimResized * wincmd =
 
 " Commenting blocks of code
-autocmd FileType c,cpp,java,scala	let b:comment_leader = '// '
-autocmd FileType sh,zsh,ruby,python	let b:comment_leader = '# '
-autocmd FileType conf,fstab			let b:comment_leader = '# '
-autocmd FileType tex				let b:comment_leader = '% '
-autocmd FileType mail				let b:comment_leader = '> '
-autocmd FileType vim				let b:comment_leader = '" '
+autocmd FileType c,cpp,java,scala,rust,php  let b:comment_leader = '// '
+autocmd FileType sh,zsh,ruby,python,perl    let b:comment_leader = '# '
+autocmd FileType conf,fstab                 let b:comment_leader = '# '
+autocmd FileType tex                        let b:comment_leader = '% '
+autocmd FileType mail                       let b:comment_leader = '> '
+autocmd FileType vim                        let b:comment_leader = '" '
 
 " Different settings for c/c++
 autocmd FileType c,cpp
-			\ set tabstop=8 |
-			\ set softtabstop=8 |
-			\ set shiftwidth=8
-
-" Change fold method for vimscripts
-autocmd FileType vim
-			\ set foldmethod=manual |
-			\ set foldminlines=2 |
-			\ set foldnestmax=20
-autocmd BufWinLeave .vimrc,*.vim mkview
-autocmd BufWinEnter .vimrc,*.vim silent loadview
+            \ set tabstop=8 |
+            \ set softtabstop=8 |
+            \ set shiftwidth=8
 
 " Make sure all types of requirements.txt files get syntax highlighting.
 autocmd BufNewFile,BufRead requirements*.txt set ft=python
@@ -213,56 +205,47 @@ autocmd BufNewFile,BufRead requirements*.txt set ft=python
 " Make sure .aliases, .bash_aliases and similar files get syntax highlighting.
 autocmd BufNewFile,BufRead .*aliases set ft=sh
 
-" Ensure tabs don't get converted to spaces in Make files.
-autocmd FileType make setlocal noexpandtab
-
 """ Keybinding Settings """
+" Change leader Key
+let mapleader = ","
+
 " Edit/Reload vim config
-exec "set <M-E>=\eE"
-nnoremap <silent> <M-E>v :e $MYVIMRC<CR>
-nnoremap <silent> <M-E>r :so $MYVIMRC<CR>
+nnoremap <silent> <leader>ve :e $MYVIMRC<CR>
+nnoremap <silent> <leader>vr :so $MYVIMRC<CR>
 
 " Open vim terminal
-exec "set <M-T>=\eT"
-nnoremap <silent> <M-T> :terminal<CR>
-
-" Quick save discarding changes
-exec "set <M-w>=\ew"
-nnoremap <silent> <M-w> :w!<CR>
+nnoremap <silent> <leader>vt :terminal<CR>
 
 " Close buffer
-exec "set <M-q>=\eq"
-nnoremap <silent> <M-q> :bd!<CR>
+nnoremap <silent> <leader>bq :bd!<CR>
 
-" Quit vim discarding changes
-exec "set <M-Q>=\eQ"
-nnoremap <silent> <M-Q> :q!<CR>
+" save buffer
+nnoremap <silent> <leader>vw :w!<CR>
+
+" close vim
+nnoremap <silent> <leader>vq :q!<CR>
 
 " Switch buffers
-exec "set <M-`>=\e`"
-exec "set <M-a>=\ea"
-nnoremap <silent> <M-`> :bnext<CR>
-nnoremap <silent> <M-a> :bprev<CR>
+nnoremap <silent> <Leader>] :bnext<CR>
+nnoremap <silent> <Leader>[ :bprev<CR>
 
 " Split navigation
-exec "set <M-j>=\ej"
-exec "set <M-k>=\ek"
-exec "set <M-l>=\el"
-exec "set <M-h>=\eh"
-nnoremap <M-j> <C-W><C-J>
-nnoremap <M-k> <C-W><C-K>
-nnoremap <M-l> <C-W><C-L>
-nnoremap <M-h> <C-W><C-H>
+nnoremap <Leader>wj <C-W><C-J>
+nnoremap <Leader>wk <C-W><C-K>
+nnoremap <Leader>wl <C-W><C-L>
+nnoremap <Leader>wh <C-W><C-H>
 
 " Clipboard
-noremap <Leader>y "+y
-noremap <Leader>p "+p
-noremap <Leader>Y "*y
-noremap <Leader>P "*p
+noremap <Leader>yy "+y
+noremap <Leader>pp "+p
+noremap <Leader>YY "*y
+noremap <Leader>PP "*p
 
 " File explorer
-exec "set <M-f>=\ef"
-nnoremap <silent> <M-f> :Explore<CR>
+nnoremap <silent> <leader>fe :Explore<CR>
+
+" File finder
+nnoremap <leader>ff :find
 
 " Navigate the complete menu items like CTRL+n / CTRL+p would.
 inoremap <expr> <Down> pumvisible() ? "<C-n>" :"<Down>"
@@ -275,12 +258,9 @@ inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
 " Cancel the complete menu item like CTRL+e would.
 inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
 
-" File finder
-nnoremap <leader>ff :find
-
 " Comment/Uncomment block of code
-noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+noremap <silent> <leader>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> <leader>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 """""""""""""""""""""""""""
 """ Special Keybindings """
@@ -295,27 +275,26 @@ nnoremap <silent> <leader>si gg=G
 nnoremap <silent> <leader>st :retab<CR>
 
 " Tags creation
-nnoremap <silent>st :!ctags -R .<CR>
+nnoremap <silent> <leader>tt :!ctags -R .<CR>
 
 " Toggle quickfix window.
 function! QuickFix_toggle()
-	for i in range(1, winnr('$'))
-		let bnum = winbufnr(i)
-		if getbufvar(bnum, '&buftype') == 'quickfix'
-			cclose
-			return
-		endif
-	endfor
+    for i in range(1, winnr('$'))
+        let bnum = winbufnr(i)
+        if getbufvar(bnum, '&buftype') == 'quickfix'
+            cclose
+            return
+        endif
+    endfor
 
-	copen
+    copen
 endfunction
-nnoremap <silent> <Leader>c :call QuickFix_toggle()<CR>
+nnoremap <silent> <Leader>qt :call QuickFix_toggle()<CR>
 
 """ Plugins """
 call plug#begin("$HOME/.vim/plugged")
 Plug 'mhinz/vim-signify'            " Show git file changes
 Plug 'lilydjwg/colorizer'           " colorize text in the form #rgb, #rgba, #rrggbb
-Plug 'szw/vim-maximizer'            " maximize/minimize split windows
 Plug 'tpope/vim-fugitive'           " Git wrapper for vim
 Plug 'vim-scripts/AutoComplPop'     " Automatic completion menu popup in insert mode
 call plug#end()
@@ -324,15 +303,11 @@ call plug#end()
 " Signify
 set updatetime=100
 
-" Vim Maximizer
-exec "set <M-F>=\eF"
-nnoremap <silent> <M-F> :MaximizerToggle<CR>
-
 """ VIM Colors """
 set background=dark
 hi clear
 if exists("syntax_on")
-	syntax reset
+    syntax reset
 endif
 
 hi SpecialKey     term=bold ctermfg=58
@@ -458,30 +433,30 @@ hi User6 ctermfg=black ctermbg=yellow
 hi User7 ctermfg=black ctermbg=darkgray
 
 let g:currentmode={
-			\ 'n'  : 'NORMAL ',
-			\ 'no' : 'N·Operator ',
-			\ 'v'  : 'VISUAL ',
-			\ 'V'  : 'V·Line ',
-			\ 'x22' : 'V·Block ',
-			\ 's'  : 'SELECT ',
-			\ 'S'  : 'S·Line ',
-			\ 'x19' : 'S·Block ',
-			\ 'i'  : 'INSERT ',
-			\ 'R'  : 'REPLACE ',
-			\ 'Rv' : 'V·Replace ',
-			\ 'c'  : 'COMMAND ',
-			\ 'cv' : 'Vim Ex ',
-			\ 'ce' : 'Ex ',
-			\ 'r'  : 'PROMPT ',
-			\ 'rm' : 'MORE ',
-			\ 'r?' : 'CONFIRM ',
-			\ '!'  : 'SHELL ',
-			\ 't'  : 'TERMINAL '
-			\}
+            \ 'n'  : 'NORMAL ',
+            \ 'no' : 'N·Operator ',
+            \ 'v'  : 'VISUAL ',
+            \ 'V'  : 'V·Line ',
+            \ 'x22' : 'V·Block ',
+            \ 's'  : 'SELECT ',
+            \ 'S'  : 'S·Line ',
+            \ 'x19' : 'S·Block ',
+            \ 'i'  : 'INSERT ',
+            \ 'R'  : 'REPLACE ',
+            \ 'Rv' : 'V·Replace ',
+            \ 'c'  : 'COMMAND ',
+            \ 'cv' : 'Vim Ex ',
+            \ 'ce' : 'Ex ',
+            \ 'r'  : 'PROMPT ',
+            \ 'rm' : 'MORE ',
+            \ 'r?' : 'CONFIRM ',
+            \ '!'  : 'SHELL ',
+            \ 't'  : 'TERMINAL '
+            \}
 
 " GitStatus
 function! GitStatus()
-	return sy#repo#get_stats_decorated()
+    return sy#repo#get_stats_decorated()
 endfunction
 
 "recalculate the trailing whitespace warning when idle, and after saving
@@ -491,29 +466,29 @@ autocmd BufEnter,BufWrite * unlet! b:statusline_trailing_space_warning
 "return warning message if trailing white space is detected
 "return '' otherwise
 function! StatuslineTrailingSpaceWarning()
-	if !exists("b:statusline_trailing_space_warning")
-		if !&modifiable
-			let b:statusline_trailing_space_warning = ''
-			return b:statusline_trailing_space_warning
-		endif
-		let trailing=search('\s\+$', 'nw')
-		if trailing != 0
-			let b:statusline_trailing_space_warning = '[Warning: Trailing Whitespaces(' . trailing . ')]'
-		else
-			let b:statusline_trailing_space_warning = ''
-		endif
-	endif
-	return b:statusline_trailing_space_warning
+    if !exists("b:statusline_trailing_space_warning")
+        if !&modifiable
+            let b:statusline_trailing_space_warning = ''
+            return b:statusline_trailing_space_warning
+        endif
+        let trailing=search('\s\+$', 'nw')
+        if trailing != 0
+            let b:statusline_trailing_space_warning = '[Warning: Trailing Whitespaces(' . trailing . ')]'
+        else
+            let b:statusline_trailing_space_warning = ''
+        endif
+    endif
+    return b:statusline_trailing_space_warning
 endfunction
 
 "return the syntax highlight group under the cursor ''
 function! StatuslineCurrentHighlight()
-	let name = synIDattr(synID(line('.'),col('.'),1),'name')
-	if name == ''
-		return ''
-	else
-		return '[' . name . ']'
-	endif
+    let name = synIDattr(synID(line('.'),col('.'),1),'name')
+    if name == ''
+        return ''
+    else
+        return '[' . name . ']'
+    endif
 endfunction
 
 "recalculate the tab warning flag when idle and after writing
@@ -524,21 +499,21 @@ autocmd BufEnter,BufWrite * unlet! b:statusline_tab_warning
 "return '[mixed-indenting]' if spaces and tabs are used to indent
 "return an empty string if everything is fine
 function! StatuslineTabWarning()
-	if !exists("b:statusline_tab_warning")
-		let b:statusline_tab_warning = ''
-		if !&modifiable
-			return b:statusline_tab_warning
-		endif
-		let tabs = search('^\t', 'nw') != 0
-		"find spaces that arent used as alignment in the first indent column
-		let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
-		if tabs && spaces
-			let b:statusline_tab_warning =  '[Warning: mixed-indenting]'
-		elseif (spaces && !&et) || (tabs && &et)
-			let b:statusline_tab_warning = '[Warning: &et]'
-		endif
-	endif
-	return b:statusline_tab_warning
+    if !exists("b:statusline_tab_warning")
+        let b:statusline_tab_warning = ''
+        if !&modifiable
+            return b:statusline_tab_warning
+        endif
+        let tabs = search('^\t', 'nw') != 0
+        "find spaces that arent used as alignment in the first indent column
+        let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
+        if tabs && spaces
+            let b:statusline_tab_warning =  '[Warning: mixed-indenting]'
+        elseif (spaces && !&et) || (tabs && &et)
+            let b:statusline_tab_warning = '[Warning: &et]'
+        endif
+    endif
+    return b:statusline_tab_warning
 endfunction
 
 " "recalculate the long line warning when idle and after saving
@@ -552,50 +527,50 @@ endfunction
 "lines, y is the median length of the long lines and z is the length of the
 "longest line
 function! StatuslineLongLineWarning()
-	if !exists("b:statusline_long_line_warning")
-		if !&modifiable
-			let b:statusline_long_line_warning = ''
-			return b:statusline_long_line_warning
-		endif
-		let long_line_lens = s:LongLines()
-		if len(long_line_lens) > 0
-			let b:statusline_long_line_warning = "[" .
-						\ '#' . len(long_line_lens) . "," .
-						\ 'm' . s:Median(long_line_lens) . "," .
-						\ '$' . max(long_line_lens) . "]"
-		else
-			let b:statusline_long_line_warning = ""
-		endif
-	endif
-	return b:statusline_long_line_warning
+    if !exists("b:statusline_long_line_warning")
+        if !&modifiable
+            let b:statusline_long_line_warning = ''
+            return b:statusline_long_line_warning
+        endif
+        let long_line_lens = s:LongLines()
+        if len(long_line_lens) > 0
+            let b:statusline_long_line_warning = "[" .
+                        \ '#' . len(long_line_lens) . "," .
+                        \ 'm' . s:Median(long_line_lens) . "," .
+                        \ '$' . max(long_line_lens) . "]"
+        else
+            let b:statusline_long_line_warning = ""
+        endif
+    endif
+    return b:statusline_long_line_warning
 endfunction
 
 "return a list containing the lengths of the long lines in this buffer
 function! s:LongLines()
-	let threshold = (&tw ? &tw : 80)
-	let spaces = repeat(" ", &ts)
-	let long_line_lens = []
-	let i = 1
-	while i <= line("$")
-		let len = strlen(substitute(getline(i), '\t', spaces, 'g'))
-		if len > threshold
-			call add(long_line_lens, len)
-		endif
-		let i += 1
-	endwhile
-	return long_line_lens
+    let threshold = (&tw ? &tw : 80)
+    let spaces = repeat(" ", &ts)
+    let long_line_lens = []
+    let i = 1
+    while i <= line("$")
+        let len = strlen(substitute(getline(i), '\t', spaces, 'g'))
+        if len > threshold
+            call add(long_line_lens, len)
+        endif
+        let i += 1
+    endwhile
+    return long_line_lens
 endfunction
 
 "find the median of the given array of numbers
 function! s:Median(nums)
-	let nums = sort(a:nums)
-	let l = len(nums)
-	if l % 2 == 1
-		let i = (l-1) / 2
-		return nums[i]
-	else
-		return (nums[l/2] + nums[(l/2)-1]) / 2
-	endif
+    let nums = sort(a:nums)
+    let l = len(nums)
+    if l % 2 == 1
+        let i = (l-1) / 2
+        return nums[i]
+    else
+        return (nums[l/2] + nums[(l/2)-1]) / 2
+    endif
 endfunction
 
 """ Tabline Configuration """
@@ -624,15 +599,15 @@ let g:buftabline_show       = get(g:, 'buftabline_show',        1)
 let g:buftabline_plug_max   = get(g:, 'buftabline_plug_max',   50)
 
 function! Buftabline_user_buffers() " help buffers are always unlisted, but quickfix buffers are not
-	return filter(range(1,bufnr('$')),'buflisted(v:val) && "quickfix" !=? getbufvar(v:val, "&buftype")')
+    return filter(range(1,bufnr('$')),'buflisted(v:val) && "quickfix" !=? getbufvar(v:val, "&buftype")')
 endfunction
 
 function! s:switch_buffer(bufnum, clicks, button, mod)
-	execute 'buffer' a:bufnum
+    execute 'buffer' a:bufnum
 endfunction
 
 function s:SID()
-	return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+    return matchstr(expand('<sfile>'), '<SNR>\d\+_')
 endfunction
 
 let s:dirsep = fnamemodify(getcwd(),':p')[-1:]
@@ -641,157 +616,157 @@ let s:tablineat = has('tablineat')
 let s:sid = s:SID() | delfunction s:SID
 
 function! Buftabline_render()
-	let show_num = g:buftabline_numbers == 1
-	let show_ord = g:buftabline_numbers == 2
-	let show_mod = g:buftabline_indicators
-	let lpad     = g:buftabline_separators ? g:buftabline_separator : ' '
+    let show_num = g:buftabline_numbers == 1
+    let show_ord = g:buftabline_numbers == 2
+    let show_mod = g:buftabline_indicators
+    let lpad     = g:buftabline_separators ? g:buftabline_separator : ' '
 
-	let bufnums = Buftabline_user_buffers()
-	let centerbuf = s:centerbuf " prevent tabline jumping around when non-user buffer current (e.g. help)
+    let bufnums = Buftabline_user_buffers()
+    let centerbuf = s:centerbuf " prevent tabline jumping around when non-user buffer current (e.g. help)
 
-	" pick up data on all the buffers
-	let tabs = []
-	let path_tabs = []
-	let tabs_per_tail = {}
-	let currentbuf = winbufnr(0)
-	let screen_num = 0
-	for bufnum in bufnums
-		let screen_num = show_num ? bufnum : show_ord ? screen_num + 1 : ''
-		let tab = { 'num': bufnum, 'pre': '' }
-		let tab.hilite = currentbuf == bufnum ? 'Current' : bufwinnr(bufnum) > 0 ? 'Active' : 'Hidden'
-		if currentbuf == bufnum | let [centerbuf, s:centerbuf] = [bufnum, bufnum] | endif
-		let bufpath = bufname(bufnum)
-		if strlen(bufpath)
-			let tab.path = fnamemodify(bufpath, ':p:~:.')
-			let tab.sep = strridx(tab.path, s:dirsep, strlen(tab.path) - 2) " keep trailing dirsep
-			let tab.label = tab.path[tab.sep + 1:]
-			let pre = screen_num
-			if getbufvar(bufnum, '&mod')
-				let tab.hilite = 'Modified' . tab.hilite
-				if show_mod | let pre = '+' . pre | endif
-			endif
-			if strlen(pre) | let tab.pre = pre . ' ' | endif
-			let tabs_per_tail[tab.label] = get(tabs_per_tail, tab.label, 0) + 1
-			let path_tabs += [tab]
-		elseif -1 < index(['nofile','acwrite'], getbufvar(bufnum, '&buftype')) " scratch buffer
-			let tab.label = ( show_mod ? '!' . screen_num : screen_num ? screen_num . ' !' : '!' )
-		else " unnamed file
-			let tab.label = ( show_mod && getbufvar(bufnum, '&mod') ? '+' : '' )
-						\             . ( screen_num ? screen_num : '*' )
-		endif
-		let tabs += [tab]
-	endfor
+    " pick up data on all the buffers
+    let tabs = []
+    let path_tabs = []
+    let tabs_per_tail = {}
+    let currentbuf = winbufnr(0)
+    let screen_num = 0
+    for bufnum in bufnums
+        let screen_num = show_num ? bufnum : show_ord ? screen_num + 1 : ''
+        let tab = { 'num': bufnum, 'pre': '' }
+        let tab.hilite = currentbuf == bufnum ? 'Current' : bufwinnr(bufnum) > 0 ? 'Active' : 'Hidden'
+        if currentbuf == bufnum | let [centerbuf, s:centerbuf] = [bufnum, bufnum] | endif
+        let bufpath = bufname(bufnum)
+        if strlen(bufpath)
+            let tab.path = fnamemodify(bufpath, ':p:~:.')
+            let tab.sep = strridx(tab.path, s:dirsep, strlen(tab.path) - 2) " keep trailing dirsep
+            let tab.label = tab.path[tab.sep + 1:]
+            let pre = screen_num
+            if getbufvar(bufnum, '&mod')
+                let tab.hilite = 'Modified' . tab.hilite
+                if show_mod | let pre = '+' . pre | endif
+            endif
+            if strlen(pre) | let tab.pre = pre . ' ' | endif
+            let tabs_per_tail[tab.label] = get(tabs_per_tail, tab.label, 0) + 1
+            let path_tabs += [tab]
+        elseif -1 < index(['nofile','acwrite'], getbufvar(bufnum, '&buftype')) " scratch buffer
+            let tab.label = ( show_mod ? '!' . screen_num : screen_num ? screen_num . ' !' : '!' )
+        else " unnamed file
+            let tab.label = ( show_mod && getbufvar(bufnum, '&mod') ? '+' : '' )
+                        \             . ( screen_num ? screen_num : '*' )
+        endif
+        let tabs += [tab]
+    endfor
 
-	" disambiguate same-basename files by adding trailing path segments
-	while len(filter(tabs_per_tail, 'v:val > 1'))
-		let [ambiguous, tabs_per_tail] = [tabs_per_tail, {}]
-		for tab in path_tabs
-			if -1 < tab.sep && has_key(ambiguous, tab.label)
-				let tab.sep = strridx(tab.path, s:dirsep, tab.sep - 1)
-				let tab.label = tab.path[tab.sep + 1:]
-			endif
-			let tabs_per_tail[tab.label] = get(tabs_per_tail, tab.label, 0) + 1
-		endfor
-	endwhile
+    " disambiguate same-basename files by adding trailing path segments
+    while len(filter(tabs_per_tail, 'v:val > 1'))
+        let [ambiguous, tabs_per_tail] = [tabs_per_tail, {}]
+        for tab in path_tabs
+            if -1 < tab.sep && has_key(ambiguous, tab.label)
+                let tab.sep = strridx(tab.path, s:dirsep, tab.sep - 1)
+                let tab.label = tab.path[tab.sep + 1:]
+            endif
+            let tabs_per_tail[tab.label] = get(tabs_per_tail, tab.label, 0) + 1
+        endfor
+    endwhile
 
-	" now keep the current buffer center-screen as much as possible:
+    " now keep the current buffer center-screen as much as possible:
 
-	" 1. setup
-	let lft = { 'lasttab':  0, 'cut':  '.', 'indicator': '<', 'width': 0, 'half': &columns / 2 }
-	let rgt = { 'lasttab': -1, 'cut': '.$', 'indicator': '>', 'width': 0, 'half': &columns - lft.half }
+    " 1. setup
+    let lft = { 'lasttab':  0, 'cut':  '.', 'indicator': '<', 'width': 0, 'half': &columns / 2 }
+    let rgt = { 'lasttab': -1, 'cut': '.$', 'indicator': '>', 'width': 0, 'half': &columns - lft.half }
 
-	" 2. sum the string lengths for the left and right halves
-	let currentside = lft
-	let lpad_width = strwidth(lpad)
-	for tab in tabs
-		let tab.width = lpad_width + strwidth(tab.pre) + strwidth(tab.label) + 1
-		let tab.label = lpad . tab.pre . substitute(strtrans(tab.label), '%', '%%', 'g') . ' '
-		if centerbuf == tab.num
-			let halfwidth = tab.width / 2
-			let lft.width += halfwidth
-			let rgt.width += tab.width - halfwidth
-			let currentside = rgt
-			continue
-		endif
-		let currentside.width += tab.width
-	endfor
-	if currentside is lft " centered buffer not seen?
-		" then blame any overflow on the right side, to protect the left
-		let [lft.width, rgt.width] = [0, lft.width]
-	endif
+    " 2. sum the string lengths for the left and right halves
+    let currentside = lft
+    let lpad_width = strwidth(lpad)
+    for tab in tabs
+        let tab.width = lpad_width + strwidth(tab.pre) + strwidth(tab.label) + 1
+        let tab.label = lpad . tab.pre . substitute(strtrans(tab.label), '%', '%%', 'g') . ' '
+        if centerbuf == tab.num
+            let halfwidth = tab.width / 2
+            let lft.width += halfwidth
+            let rgt.width += tab.width - halfwidth
+            let currentside = rgt
+            continue
+        endif
+        let currentside.width += tab.width
+    endfor
+    if currentside is lft " centered buffer not seen?
+        " then blame any overflow on the right side, to protect the left
+        let [lft.width, rgt.width] = [0, lft.width]
+    endif
 
-	" 3. toss away tabs and pieces until all fits:
-	if ( lft.width + rgt.width ) > &columns
-		let oversized
-					\ = lft.width < lft.half ? [ [ rgt, &columns - lft.width ] ]
-					\ : rgt.width < rgt.half ? [ [ lft, &columns - rgt.width ] ]
-					\ :                        [ [ lft, lft.half ], [ rgt, rgt.half ] ]
-		for [side, budget] in oversized
-			let delta = side.width - budget
-			" toss entire tabs to close the distance
-			while delta >= tabs[side.lasttab].width
-				let delta -= remove(tabs, side.lasttab).width
-			endwhile
-			" then snip at the last one to make it fit
-			let endtab = tabs[side.lasttab]
-			while delta > ( endtab.width - strwidth(strtrans(endtab.label)) )
-				let endtab.label = substitute(endtab.label, side.cut, '', '')
-			endwhile
-			let endtab.label = substitute(endtab.label, side.cut, side.indicator, '')
-		endfor
-	endif
+    " 3. toss away tabs and pieces until all fits:
+    if ( lft.width + rgt.width ) > &columns
+        let oversized
+                    \ = lft.width < lft.half ? [ [ rgt, &columns - lft.width ] ]
+                    \ : rgt.width < rgt.half ? [ [ lft, &columns - rgt.width ] ]
+                    \ :                        [ [ lft, lft.half ], [ rgt, rgt.half ] ]
+        for [side, budget] in oversized
+            let delta = side.width - budget
+            " toss entire tabs to close the distance
+            while delta >= tabs[side.lasttab].width
+                let delta -= remove(tabs, side.lasttab).width
+            endwhile
+            " then snip at the last one to make it fit
+            let endtab = tabs[side.lasttab]
+            while delta > ( endtab.width - strwidth(strtrans(endtab.label)) )
+                let endtab.label = substitute(endtab.label, side.cut, '', '')
+            endwhile
+            let endtab.label = substitute(endtab.label, side.cut, side.indicator, '')
+        endfor
+    endif
 
-	if len(tabs) | let tabs[0].label = substitute(tabs[0].label, lpad, ' ', '') | endif
+    if len(tabs) | let tabs[0].label = substitute(tabs[0].label, lpad, ' ', '') | endif
 
-	let swallowclicks = '%'.(1 + tabpagenr('$')).'X'
-	return s:tablineat
-				\ ? join(map(tabs,'"%#BufTabLine".v:val.hilite."#" . "%".v:val.num."@'.s:sid.'switch_buffer@" . strtrans(v:val.label)'),'') . '%#BufTabLineFill#' . swallowclicks
-				\ : swallowclicks . join(map(tabs,'"%#BufTabLine".v:val.hilite."#" . strtrans(v:val.label)'),'') . '%#BufTabLineFill#'
+    let swallowclicks = '%'.(1 + tabpagenr('$')).'X'
+    return s:tablineat
+                \ ? join(map(tabs,'"%#BufTabLine".v:val.hilite."#" . "%".v:val.num."@'.s:sid.'switch_buffer@" . strtrans(v:val.label)'),'') . '%#BufTabLineFill#' . swallowclicks
+                \ : swallowclicks . join(map(tabs,'"%#BufTabLine".v:val.hilite."#" . strtrans(v:val.label)'),'') . '%#BufTabLineFill#'
 endfunction
 
 function! Buftabline_update(zombie)
-	set tabline=
-	if tabpagenr('$') > 1 | set guioptions+=e showtabline=2 | return | endif
-	set guioptions-=e
-	if 0 == g:buftabline_show
-		set showtabline=1
-		return
-	elseif 1 == g:buftabline_show
-		" account for BufDelete triggering before buffer is actually deleted
-		let bufnums = filter(Buftabline_user_buffers(), 'v:val != a:zombie')
-		let &g:showtabline = 1 + ( len(bufnums) > 1 )
-	elseif 2 == g:buftabline_show
-		set showtabline=2
-	endif
-	set tabline=%!Buftabline_render()
+    set tabline=
+    if tabpagenr('$') > 1 | set guioptions+=e showtabline=2 | return | endif
+    set guioptions-=e
+    if 0 == g:buftabline_show
+        set showtabline=1
+        return
+    elseif 1 == g:buftabline_show
+        " account for BufDelete triggering before buffer is actually deleted
+        let bufnums = filter(Buftabline_user_buffers(), 'v:val != a:zombie')
+        let &g:showtabline = 1 + ( len(bufnums) > 1 )
+    elseif 2 == g:buftabline_show
+        set showtabline=2
+    endif
+    set tabline=%!Buftabline_render()
 endfunction
 
 augroup BufTabLine
-	autocmd!
-	autocmd VimEnter  * call Buftabline_update(0)
-	autocmd TabEnter  * call Buftabline_update(0)
-	autocmd BufAdd    * call Buftabline_update(0)
-	autocmd FileType qf call Buftabline_update(0)
-	autocmd BufDelete * call Buftabline_update(str2nr(expand('<abuf>')))
+    autocmd!
+    autocmd VimEnter  * call Buftabline_update(0)
+    autocmd TabEnter  * call Buftabline_update(0)
+    autocmd BufAdd    * call Buftabline_update(0)
+    autocmd FileType qf call Buftabline_update(0)
+    autocmd BufDelete * call Buftabline_update(str2nr(expand('<abuf>')))
 augroup END
 
 for s:n in range(1, g:buftabline_plug_max) + ( g:buftabline_plug_max > 0 ? [-1] : [] )
-	let s:b = s:n == -1 ? -1 : s:n - 1
-	execute printf("noremap <silent> <Plug>BufTabLine.Go(%d) :<C-U>exe 'b'.get(Buftabline_user_buffers(),%d,'')<cr>", s:n, s:b)
+    let s:b = s:n == -1 ? -1 : s:n - 1
+    execute printf("noremap <silent> <Plug>BufTabLine.Go(%d) :<C-U>exe 'b'.get(Buftabline_user_buffers(),%d,'')<cr>", s:n, s:b)
 endfor
 unlet! s:n s:b
 
 if v:version < 703
-	function s:transpile()
-		let [ savelist, &list ] = [ &list, 0 ]
-		redir => src
-		silent function Buftabline_render
-		redir END
-		let &list = savelist
-		let src = substitute(src, '\n\zs[0-9 ]*', '', 'g')
-		let src = substitute(src, 'strwidth(strtrans(\([^)]\+\)))', 'strlen(substitute(\1, ''\p\|\(.\)'', ''x\1'', ''g''))', 'g')
-		return src
-	endfunction
-	exe "delfunction Buftabline_render\n" . s:transpile()
-	delfunction s:transpile
+    function s:transpile()
+        let [ savelist, &list ] = [ &list, 0 ]
+        redir => src
+        silent function Buftabline_render
+        redir END
+        let &list = savelist
+        let src = substitute(src, '\n\zs[0-9 ]*', '', 'g')
+        let src = substitute(src, 'strwidth(strtrans(\([^)]\+\)))', 'strlen(substitute(\1, ''\p\|\(.\)'', ''x\1'', ''g''))', 'g')
+        return src
+    endfunction
+    exe "delfunction Buftabline_render\n" . s:transpile()
+    delfunction s:transpile
 endif
